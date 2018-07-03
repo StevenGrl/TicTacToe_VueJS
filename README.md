@@ -6,4 +6,4 @@
 
 ------
 
->Copy the path of index.html and past in your brower to launch the game
+>Copy the path of index.html and past in your browser to launch the game
