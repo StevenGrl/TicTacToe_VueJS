@@ -2,7 +2,7 @@
 
 ## Personal test of VueJS
 
-### This game don't require anithing exept an internet connection
+### This game doesn't require anything except an internet connection
 
 ------
 
