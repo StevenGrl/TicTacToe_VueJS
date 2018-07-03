@@ -1,0 +1,42 @@
+.square {
+    min-width: 30%;
+    min-height: 30%;
+    margin-right: 7px;
+    border: black solid 1px;
+}
+
+.square-1 {
+    border-top-left-radius: 10%;
+}
+
+.square-3 {
+    border-top-right-radius: 10%;
+}
+
+.square-7 {
+    border-bottom-left-radius: 10%;
+}
+
+.square-9 {
+    border-bottom-right-radius: 10%;
+}
+
+.grid {
+    width: 550px;
+    height: 550px;
+}
+
+.player-1 {
+    background-size:contain;
+    background-image: url('images/circle.png');
+}
+
+.player-2 {
+    background-size: 100% 100%;
+    background-image: url('images/cross.png');
+    background-repeat:no-repeat;
+}
+
+.img-player {
+    width: 40px;
+}
