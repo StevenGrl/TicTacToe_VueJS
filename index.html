@@ -32,14 +32,19 @@
         <!-- Morpion-->
         <div id="game" class="container my-5">
             <h1 class="text-center">{{ title }}</h1>
+            <div class="text-center mb-2">
+                <input v-model="playerOne.name">
+                <input v-model="playerTwo.name">
+            </div>
             <p class="text-center">
                 <img src="images/circle.png" alt="playerOne - circle" class="img-player">
-                PlayerOne {{ playerOne.score }} - {{ playerTwo.score }} PlayerTwo
+                {{ playerOne.name }} {{ playerOne.score }} - {{ playerTwo.score }} {{ playerTwo.name }}
                 <img src="images/cross.png" alt="playerTwo - cross" class="img-player">
             </p>
-            <p class="text-center">Turn to Player {{ currentPlayerId }}</p>
+            <p class="text-center">Turn to {{ currentPlayer.name }}</p>
             <p v-if="errorMessage" class="text-center alert alert-danger">{{ errorMessage }}</p>
-            <p v-if="winner" class="text-center alert alert-success">Player {{ winner }} win the game!</p>
+            <p v-if="winner" class="text-center alert alert-success">{{ winner.name }} win the game!</p>
+            <p v-if="looser" class="text-center alert alert-warning">Looser begin - {{ looser.name }}</p>
             <div v-if="winner || hits === 9" class="text-center">
                 <button  @click="createGame()" class="btn btn-primary text-center">Launch a new game</button>
             </div>

@@ -6,11 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
             winCombination: [],
             game: [],
             hits: 0,
-            currentPlayerId: 0,
             playerOne: new Player(1),
             playerTwo: new Player(2),
+            currentPlayer: this.playerOne,
             winner: null,
-            errorMessage: null
+            errorMessage: null,
+            looser: null
         }),
         created: function() {
             this.createGame()
@@ -22,15 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
             createGame() {
                 this.game = new GameMap(3, 3, 3)
                 this.hits = 0
-                this.currentPlayerId = 1
+                this.currentPlayer = (this.winner !== null && this.winner.id === 1) ? this.playerTwo : this.playerOne
                 this.playerOne.cellsId = []
                 this.playerTwo.cellsId = []
                 this.winner = null
                 this.errorMessage = null
+                this.winCombination = []
             },
             play(rowIndex, cellIndex) {
                 const cell = this.game.map[rowIndex][cellIndex]
-                const currentPlayerCellsId = this.currentPlayerId === 1 ? this.playerOne.cellsId : this.playerTwo.cellsId
+                const currentPlayerCellsId = this.currentPlayer.cellsId
                 if (this.winner !== null) {
                     this.errorMessage = 'The Game is finished, you have to launch a new game to play'
                     return
@@ -43,25 +45,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 this.errorMessage = null
 
+                this.looser = null
+
                 cell.clicked = true
-                cell.player = this.currentPlayerId
+                cell.player = this.currentPlayer.id
 
                 currentPlayerCellsId.push(cell.id)
 
                 if (++this.hits >= 5 && this.isWinner(currentPlayerCellsId)) {
-                    this.winner = this.currentPlayerId
-                    this.currentPlayerId === 1 ? this.playerOne.score++ : this.playerTwo.score++
+                    this.winner = this.currentPlayer
+                    this.looser = this.currentPlayer.id === 1 ? this.playerTwo : this.playerOne
+                    this.currentPlayer.score++
                 }
 
                 this.errorMessage = this.hits === 9 && this.winner === null ? 'Nobody win this game :/' : null
 
-                this.currentPlayerId = (this.currentPlayerId === 1) ? 2 : 1
+                this.currentPlayer = (this.currentPlayer.id === 1) ? this.playerTwo : this.playerOne
             },
-            isWinner(playerCellIds) {
+            isWinner(playerCellsId) {
                 let win = false
 
                 for (const combination of this.game.winCombinations) {
-                    const matches = playerCellIds.filter(cellId => combination.includes(cellId))
+                    const matches = playerCellsId.filter(cellId => combination.includes(cellId))
                     win = matches.length === combination.length
                     if (win) {
                         this.winCombination = combination
@@ -126,6 +131,7 @@ class Player {
     constructor(id) {
         this.score = 0
         this.cellsId = []
+        this.name = 'Player' + id
         this.id = id
     }
 }
