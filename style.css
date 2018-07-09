@@ -1,7 +1,8 @@
 .square {
     min-width: 30%;
     min-height: 30%;
-    margin-right: 7px;
+    margin-right: -1px;
+    margin-bottom: -8px;
     border: black solid 1px;
 }
 
@@ -27,16 +28,77 @@
 }
 
 .player-1 {
-    background-size:contain;
+    background-size: contain;
     background-image: url('images/circle.png');
+    background-repeat: no-repeat;
+
+    animation-duration: 0.5s;
+    animation-name: onClick;
 }
 
 .player-2 {
     background-size: 100% 100%;
     background-image: url('images/cross.png');
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
+
+    animation-duration: 0.5s;
+    animation-name: onClick;
 }
 
 .img-player {
     width: 40px;
+}
+
+.win {
+    animation-iteration-count: 30;
+    animation-duration: 0.5s;
+    animation-name: onWin;
+}
+
+/* Le déplacemant */
+@keyframes onClick { 
+    0% {
+        background-position: 50% 50%;
+        background-size: 50%;
+    }
+    25% {
+        background-position: 50% 50%;
+        background-size: 60%;
+    }
+    50% {
+        background-position: 50% 50%;
+        background-size: 75%;
+    }
+    75% {
+        background-position: 50% 50%;
+        background-size: 85%;
+    }
+    100% {
+        background-position: 50% 50%;
+        background-size: 100%;
+    }
+}
+
+/* Le déplacemant */
+@keyframes onWin { 
+    0% {
+        background-position: 50% 50%;
+        background-size: 50%;
+    }
+    25% {
+        background-position: 50% 50%;
+        background-size: 75%;
+    }
+    50% {
+        background-position: 50% 50%;
+        background-size: 100%;
+    }
+    75% {
+        background-position: 50% 50%;
+        background-size: 75%;
+    }
+    100% {
+        background-position: 50% 50%;
+        background-size: 50%;
+    }    
 }

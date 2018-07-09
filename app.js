@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = new Vue({
         el: '#game',
         data: () => ({
-            title: 'Tic Tac Toe V 1.0',
-            winCombinations: [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7, 8, 9 ], [ 1, 4, 7 ], [ 2, 5, 8 ], [ 3, 6, 9 ], [ 1, 5, 9 ], [ 7, 5, 3 ] ],
+            title: 'Tic Tac Toe V 1.1',
+            winCombination: [],
             game: [],
             hits: 0,
             currentPlayerId: 0,
@@ -16,8 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
             this.createGame()
         },
         methods: {
+            getCellClass(id) {
+                return 
+            },
             createGame() {
-                this.game = new GameMap(3, 3)
+                this.game = new GameMap(3, 3, 3)
                 this.hits = 0
                 this.currentPlayerId = 1
                 this.playerOne.cellsId = []
@@ -28,7 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
             play(rowIndex, cellIndex) {
                 const cell = this.game.map[rowIndex][cellIndex]
                 const currentPlayerCellsId = this.currentPlayerId === 1 ? this.playerOne.cellsId : this.playerTwo.cellsId
-                
+                if (this.winner !== null) {
+                    this.errorMessage = 'The Game is finished, you have to launch a new game to play'
+                    return
+                }
+
                 if (cell.clicked) {
                     this.errorMessage = 'You can\'t click here ! It\'s already clicked'
                     return
@@ -53,10 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
             isWinner(playerCellIds) {
                 let win = false
 
-                for (const combination of this.winCombinations) {
+                for (const combination of this.game.winCombinations) {
                     const matches = playerCellIds.filter(cellId => combination.includes(cellId))
                     win = matches.length === combination.length
-                    if (win) break
+                    if (win) {
+                        this.winCombination = combination
+                        break   
+                    }
                 }
 
                 return win
@@ -66,17 +76,40 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 class GameMap {
-    constructor(width, height) {
+    constructor(nbRow, nbCol, nbCellsToWin) {
         this.map = []
-        for (let rowIndex = 0; rowIndex < height; rowIndex++) {
+        this.winCombinations = []
+        /* map generation */
+        for (let rowIndex = 0; rowIndex < nbRow; rowIndex++) {
             const cells = []
-            for (let cellIndex = 0; cellIndex < width; cellIndex++) {
-                const cellId = (cellIndex + 1) + (rowIndex * width)
+            for (let cellIndex = 0; cellIndex < nbCol; cellIndex++) {
+                const cellId = (cellIndex + 1) + (rowIndex * nbCol)
                 const cell = new GameCell(cellId)
                 cells.push(cell)
             }
             this.map.push(cells)
         }
+        
+        /* winCombinations generation */
+        for (let nbRowIndex = 0; nbRowIndex < nbRow; nbRowIndex++) {
+            let winCombinationRow = []
+            let winCombinationCol = []
+            for (let nbColIndex = 0; nbColIndex < nbCol; nbColIndex++) {
+                winCombinationRow.push(this.map[nbRowIndex][nbColIndex].id)
+                winCombinationCol.push(this.map[nbColIndex][nbRowIndex].id)
+            }
+            this.winCombinations.push(winCombinationRow)
+            this.winCombinations.push(winCombinationCol)
+        }
+
+        let winCombinationDiagOne = []
+        let winCombinationDiagTwo = []
+        for (let diagIndex = 0; diagIndex < nbCellsToWin; diagIndex++) {
+            winCombinationDiagOne.push(this.map[0 + diagIndex][diagIndex].id)
+            winCombinationDiagTwo.push(this.map[diagIndex][(nbCellsToWin - 1) - diagIndex].id)
+        }
+        this.winCombinations.push(winCombinationDiagOne)
+        this.winCombinations.push(winCombinationDiagTwo)
     }
 }
 

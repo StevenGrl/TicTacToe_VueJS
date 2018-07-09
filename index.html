@@ -40,20 +40,29 @@
             <p class="text-center">Turn to Player {{ currentPlayerId }}</p>
             <p v-if="errorMessage" class="text-center alert alert-danger">{{ errorMessage }}</p>
             <p v-if="winner" class="text-center alert alert-success">Player {{ winner }} win the game!</p>
-            <div class="text-center">
-                <button v-if="winner || hits === 9" @click="createGame()" class="btn btn-primary text-center">Launch a new game</button>
+            <div v-if="winner || hits === 9" class="text-center">
+                <button  @click="createGame()" class="btn btn-primary text-center">Launch a new game</button>
             </div>
             <div class="text-center grid offset-3 my-5">
                 <!-- Lignes -->
-                <div v-if="winner === null" v-for="(row, rowIndex) in game.map" :key="rowIndex" class="d-inline">
+                <div v-for="(row, rowIndex) in game.map" :key="rowIndex" class="d-inline">
                     <!-- Colonnes -->
                     <div
                         v-for="(cell, cellIndex) in row"
                         :key="cellIndex"
                         @click="play(rowIndex, cellIndex)"
                         class="square d-inline-block"
-                        v-bind:class="{ 'player-1': cell.player === 1, 'player-2': cell.player === 2 }"
-                    ></div>
+                        v-bind:class="{ 
+                            'player-1': cell.player === 1,
+                            'player-2': cell.player === 2,
+                            'square-1': cellIndex == 0 && rowIndex == 0,
+                            'square-3': cellIndex == 2 && rowIndex == 0,
+                            'square-7': cellIndex == 0 && rowIndex == 2,
+                            'square-9': cellIndex == 2 && rowIndex == 2,
+                            'win': winCombination.includes(cell.id)
+                        }"
+                    >
+                    </div>
                 </div>
             </div>
         </div>
