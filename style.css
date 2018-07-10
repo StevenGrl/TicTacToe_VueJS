@@ -55,7 +55,6 @@
     animation-name: onWin;
 }
 
-/* Le déplacemant */
 @keyframes onClick { 
     0% {
         background-position: 50% 50%;
@@ -79,7 +78,6 @@
     }
 }
 
-/* Le déplacemant */
 @keyframes onWin { 
     0% {
         background-position: 50% 50%;
