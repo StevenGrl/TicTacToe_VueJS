@@ -6,4 +6,6 @@
 
 ------
 
+>Download and unzip or clone with $ git clone https://github.com/StevenGrl/TicTacToe_VueJS.git
+
 >Copy the path of index.html and past in your browser to launch the game
